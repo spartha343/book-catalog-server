@@ -1,0 +1,45 @@
+{
+  "name": "book-catalog-server",
+  "version": "1.0.0",
+  "description": "This is a book catalog web app server",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "node dist/server.js",
+    "start-dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "lint:check": "eslint --ext .js,.ts .",
+    "prettier:check": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "lint-prettier": "npm run lint:check && npm run prettier:check",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "book",
+    "catalog"
+  ],
+  "author": "Partha Debnath",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^8.6.0",
+    "@typescript-eslint/parser": "^8.6.0",
+    "eslint": "^9.11.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.2",
+    "husky": "^8.0.0"
+  },
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "http-status": "^1.7.4",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.3",
+    "zod": "^3.23.8"
+  }
+}
