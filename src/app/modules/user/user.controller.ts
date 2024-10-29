@@ -28,7 +28,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
     httpOnly: true
   };
 
-  res.cookie('token', token, cookieOptions);
+  res.cookie('token', token, { ...cookieOptions, sameSite: 'none' });
 
   sendResponse<Omit<IUser, 'password'>>(res, {
     statusCode: httpStatus.OK,
