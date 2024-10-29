@@ -1,10 +1,15 @@
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from 'jsonwebtoken';
 
 declare global {
   namespace Express {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     interface Request {
-      user: JwtPayload | null;
+      user:
+        | (JwtPayload & {
+            userId: string; // or Types.ObjectId, depending on your implementation
+            email: string;
+            role: string;
+          })
+        | null;
     }
   }
 }

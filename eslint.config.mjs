@@ -1,7 +1,6 @@
-import globals from 'globals'
-import pluginJs from '@eslint/js'
-import tseslint from 'typescript-eslint'
-const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended')
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
 export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
@@ -10,26 +9,13 @@ export default [
   {
     rules: {
       eqeqeq: 'off',
-      'no-unused-expressions': 'error',
-      'no-undef': 'error',
-      'no-console': 'off',
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'no-unused-vars': 'error',
       'prefer-const': ['error', { ignoreReadBeforeAssign: true }]
-    },
-    env: {
-      browser: true,
-      es2021: true,
-      node: true
-    },
-    globals: {
-      process: 'readonly'
     }
   },
   {
-    ignores: ['.node_modules/*', '.env', 'dist']
+    ignores: ['.node_modules/*']
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  eslintPluginPrettierRecommended
-]
+  ...tseslint.configs.recommended
+];
