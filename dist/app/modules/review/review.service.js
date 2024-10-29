@@ -1,26 +1,55 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+'use strict';
+var __awaiter =
+  (this && this.__awaiter) ||
+  function (thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P
+        ? value
+        : new P(function (resolve) {
+            resolve(value);
+          });
+    }
     return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator['throw'](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done
+          ? resolve(result.value)
+          : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+  };
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.ReviewService = void 0;
-const http_status_1 = __importDefault(require("http-status"));
-const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
-const review_model_1 = require("./review.model");
-const book_model_1 = require("../book/book.model");
-const getReviewsByBookId = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield review_model_1.Review.find({ book: id }).sort({ createdAt: 1 }).lean();
+const http_status_1 = __importDefault(require('http-status'));
+const ApiError_1 = __importDefault(require('../../../errors/ApiError'));
+const review_model_1 = require('./review.model');
+const book_model_1 = require('../book/book.model');
+const getReviewsByBookId = id =>
+  __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_model_1.Review.find({ book: id })
+      .sort({ createdAt: 1 })
+      .lean();
     return result;
-});
+  });
 // const getBookById = async (id: string): Promise<IBook | null> => {
 //   const result = await Book.findById(id).lean();
 //   if (!result) {
@@ -59,36 +88,55 @@ const getReviewsByBookId = (id) => __awaiter(void 0, void 0, void 0, function* (
 //   }
 // };
 //todo: delete the code below and uncomment the code above
-const addReview = (data) => __awaiter(void 0, void 0, void 0, function* () {
+const addReview = data =>
+  __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield review_model_1.Review.create(data);
-        if (!result) {
-            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Failed to create review!');
-        }
-        yield book_model_1.Book.findByIdAndUpdate(data.book, // Ensure data.book is a valid ObjectId
+      const result = yield review_model_1.Review.create(data);
+      if (!result) {
+        throw new ApiError_1.default(
+          http_status_1.default.INTERNAL_SERVER_ERROR,
+          'Failed to create review!'
+        );
+      }
+      yield book_model_1.Book.findByIdAndUpdate(
+        data.book, // Ensure data.book is a valid ObjectId
         {
-            $push: { reviews: result._id }
-        });
-        return result;
+          $push: { reviews: result._id }
+        }
+      );
+      return result;
+    } catch (error) {
+      console.error('Error in addReview:', error);
+      throw new ApiError_1.default(
+        http_status_1.default.BAD_REQUEST,
+        'Failed to create review !'
+      );
     }
-    catch (error) {
-        console.error('Error in addReview:', error);
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Failed to create review !');
-    }
-});
-const updateReview = (id, data, userId) => __awaiter(void 0, void 0, void 0, function* () {
+  });
+const updateReview = (id, data, userId) =>
+  __awaiter(void 0, void 0, void 0, function* () {
     const review = yield review_model_1.Review.findOne({ _id: id });
     if (!review) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Review does not exist !');
+      throw new ApiError_1.default(
+        http_status_1.default.BAD_REQUEST,
+        'Review does not exist !'
+      );
     }
     if (review.createdBy.toString() !== userId) {
-        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'You do not have permission to update this review !');
+      throw new ApiError_1.default(
+        http_status_1.default.FORBIDDEN,
+        'You do not have permission to update this review !'
+      );
     }
-    const result = yield review_model_1.Review.findOneAndUpdate({ _id: id }, data, {
+    const result = yield review_model_1.Review.findOneAndUpdate(
+      { _id: id },
+      data,
+      {
         new: true
-    }).lean();
+      }
+    ).lean();
     return result;
-});
+  });
 // const deleteReview = async (
 //   id: string,
 //   userId: string
@@ -128,28 +176,37 @@ const updateReview = (id, data, userId) => __awaiter(void 0, void 0, void 0, fun
 //   }
 // };
 //TODO: uncomment the above function and comment out the below function
-const deleteReview = (id, userId) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteReview = (id, userId) =>
+  __awaiter(void 0, void 0, void 0, function* () {
     // Find the review first
     const review = yield review_model_1.Review.findOne({ _id: id });
     if (!review) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Review does not exist!');
+      throw new ApiError_1.default(
+        http_status_1.default.BAD_REQUEST,
+        'Review does not exist!'
+      );
     }
     // Check if the user is authorized to delete the review
     if (review.createdBy.toString() !== userId) {
-        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'You do not have permission to delete this review.');
+      throw new ApiError_1.default(
+        http_status_1.default.FORBIDDEN,
+        'You do not have permission to delete this review.'
+      );
     }
     // Remove the review reference from the corresponding book document
     yield book_model_1.Book.findByIdAndUpdate(review.book, {
-        $pull: { reviews: review._id } // Use $pull to remove the review ID from the array
+      $pull: { reviews: review._id } // Use $pull to remove the review ID from the array
     });
     // Delete the review
-    const result = yield review_model_1.Review.findOneAndDelete({ _id: id }).lean();
+    const result = yield review_model_1.Review.findOneAndDelete({
+      _id: id
+    }).lean();
     return result;
-});
+  });
 exports.ReviewService = {
-    getReviewsByBookId,
-    //   getBookById,
-    addReview,
-    updateReview,
-    deleteReview
+  getReviewsByBookId,
+  //   getBookById,
+  addReview,
+  updateReview,
+  deleteReview
 };

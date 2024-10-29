@@ -10,7 +10,7 @@ const app: Application = express();
 //middlewares
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Your client-side origin
+    origin: 'https://catalog-book.netlify.app', // Your client-side origin
     credentials: true // Required for cookies to be sent
   })
 );
