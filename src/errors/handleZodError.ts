@@ -1,6 +1,6 @@
-import { ZodError, ZodIssue } from "zod";
-import { IGenericErrorMessage } from "../interfaces/error";
-import { IGenericErrorResponse } from "../interfaces/common";
+import { ZodError, ZodIssue } from 'zod';
+import { IGenericErrorMessage } from '../interfaces/error';
+import { IGenericErrorResponse } from '../interfaces/common';
 
 const handleZodError = (error: ZodError): IGenericErrorResponse => {
   const statusCode = 400;
@@ -12,7 +12,7 @@ const handleZodError = (error: ZodError): IGenericErrorResponse => {
   );
   return {
     statusCode,
-    message: "Validation Error",
+    message: 'Validation Error',
     errorMessages: errors
   };
 };

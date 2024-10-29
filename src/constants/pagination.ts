@@ -1,6 +1,6 @@
 export const paginationFields: string[] = [
-  "page",
-  "limit",
-  "sortBy",
-  "sortOrder"
+  'page',
+  'limit',
+  'sortBy',
+  'sortOrder'
 ];
